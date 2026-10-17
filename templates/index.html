@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <title>Expense Report {{er.number}}</title>
+    <style>
+        @page {
+            size: A4;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        main header div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        main header div img {
+            aspect-ratio: auto 140 / 100;
+            width: 85px;
+            max-width: 85px;
+            height: 100%;
+        }
+
+        main header div div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        main header div div h1 {
+            color: rgb(17, 24, 39);
+            font-style: normal;
+            font-weight: 600;
+            line-height: 36px;
+            text-transform: uppercase;
+            letter-spacing: -0.75px;
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        main header div div p {
+            color: rgb(107, 114, 128);
+            font-style: normal;
+            font-weight: 500;
+            line-height: 20px;
+            text-align: end;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        main header div div p span {
+            color: rgb(17, 24, 39);
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            text-align: end;
+        }
+
+        main header hr {
+            border: 2.5px solid rgb(190, 18, 60);
+            border-radius: 4px;
+            margin-top: 12px;
+            margin-bottom: 36px;
+        }
+
+        main .organization h2 {
+            color: rgb(17, 24, 39);
+            font-style: normal;
+            font-weight: 600;
+            line-height: 28px;
+            text-transform: uppercase;
+            font-size: 18px;
+            margin: 4px 0;
+            
+        }
+
+        main .organization address {
+            color: rgb(75, 85, 99);
+            font-style: normal;
+            font-weight: 500;
+            line-height: 22.75px;
+            text-align: start;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        main .expense-items table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+            margin-top: 36px;
+        }
+
+        main .expense-items table thead,
+        main .expense-items table tbody {
+            display: table-header-group;
+            vertical-align: middle;
+            font-style: normal;
+            line-height: 24px;
+        }
+
+        main .expense-items table tbody tr,
+        main .expense-items table thead tr {
+            display: table-row;
+            vertical-align: middle;
+            font-style: normal;
+            line-height: 24px;
+        }
+
+        main .expense-items table thead tr th {
+            display: table-cell;
+            padding-bottom: 8px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 16.5px;
+            letter-spacing: 0.55px;
+            text-transform: uppercase;
+            font-size: 11px;
+            text-align: start;
+            vertical-align: middle;
+            color: rgb(190, 18, 60);
+            border-bottom: 2px solid rgb(209, 213, 219);
+        }
+
+        main .expense-items table tr > :first-child {
+            width: 65%;
+            overflow-wrap: anywhere;
+        }
+
+        main .expense-items table tr > :nth-child(2) {
+            width: 5%;
+        }
+
+        main .expense-items table tr > :nth-child(3),
+        main .expense-items table tr > :nth-child(4) {
+            width: 16%;
+        }
+
+        main .expense-items table thead tr th:not(:first-child),
+        main .expense-items table tbody tr td:not(:first-child) {
+            text-align: end;
+            text-wrap: nowrap;
+        }
+
+        main .expense-items table tbody tr td {
+            display: table-cell;
+            padding: 12px 0;
+            font-style: normal;
+            line-height: 20px;
+            text-align: start;
+            font-weight: 500;
+            font-size: 14px;
+            vertical-align: middle;
+            color: rgb(17, 24, 39);
+            border-bottom: 1px solid rgb(229, 231, 235);
+        }
+
+        main .expense-items table tbody tr td:first-child p {
+            max-width: 100%;
+            color: rgb(107, 114, 128);
+            font-style: normal;
+            font-weight: 500;
+            line-height: 12px;
+            text-align: start;
+            font-size: 11px;
+            text-wrap: wrap;
+            overflow-wrap: anywhere;
+            white-space-collapse: preserve-breaks;
+            padding: 0;
+            margin: 0;
+        }
+
+        main .expense-items table tbody tr td:nth-child(2),
+        main .expense-items table tbody tr td:nth-child(3) {
+            color: rgb(55, 65, 81);
+        }
+
+        main .summary {
+            margin-top: 36px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        main .summary div:first-child {
+            flex: 1;
+        }
+
+        main .summary div:last-child {
+            flex: 0 0 50%;
+        }
+
+        main .summary div .subtotal,
+        main .summary div .total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        main .summary div .subtotal {
+            padding: 4px 0;
+        }
+
+        main .summary div .total {
+            padding-top: 8px;
+            margin-top: 4px;
+        }
+
+        main .summary div .subtotal span {
+            font-style: normal;
+            font-weight: 500;
+            line-height: 20px;
+            font-size: 14px;
+            color: rgb(75, 85, 99);
+        }
+        
+        main .summary div hr {
+            border: 1.35px solid rgb(190, 18, 60);
+            margin: 4px 0;
+            border-radius: 4px;
+        }
+
+        main .summary div .total span {
+            font-style: normal;
+            font-weight: 600;
+            line-height: 20px;
+            font-size: 14px;
+            letter-spacing: 0.35px;
+            color: rgb(17, 24, 39);
+            text-transform: uppercase;
+        }
+
+        main .summary div .total span:last-child {
+           font-size: 20px;
+           font-weight: 700;
+           line-height: 28px;
+        }
+
+        main .summary div:first-child p {
+            color: rgb(107, 114, 128);
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 0.5px;
+            line-height: 15px;
+            text-transform: uppercase;
+        }
+
+        main .summary div:last-child p {
+            color: rgb(107, 114, 128);
+            font-style: italic;
+            font-weight: 500;
+            line-height: 16.5px;
+            font-size: 11px;
+            margin-top: 6px;
+        }
+
+        main footer {
+            margin-top: 36px;
+        }
+
+        main footer p {
+            color: rgb(107, 114, 128);
+            font-style: normal;
+            font-weight: 500;
+            line-height: 16.5px;
+            font-size: 11px;
+            margin: 0;
+        }
+        main footer p:last-child {
+            margin-top: 2px;
+            color: rgb(17, 24, 39);
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <header>
+            <div>
+                <img src="../assets/duc_rcyt.jpg" alt="Dania College Red Crescent Youth Team Logo">
+                <div>
+                    <h1>Expense Report</h1>
+                    <p>Report Number: <span>{{er.number}}</span></p>
+                    <p>Date: <span>{{er.date}}</span></p>
+                </div>
+            </div>
+            <hr>
+        </header>
+        <section class="organization">
+            <h2>
+                DANIA COLLEGE RED CRESCENT YOUTH TEAM
+            </h2>
+            <address>
+                Dania University College, Shonir Akhra, Jatrabari <br />
+                Dhaka-1236, Shonir Akhra <br />
+                Bangladesh <br />
+                +880 17 7130 7270
+            </address>
+        </section>
+        <section class="expense-items">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ITEM</th>
+                        <th>QTY</th>
+                        <th>RATE</th>
+                        <th>AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.name }}<br><p>{{ item.description }}</p></td>
+                        <td>{{ item.quantity }}</td>
+                        <td>BDT {{ "%.2f" | format(item.rate) }}</td>
+                        <td>BDT {{ "%.2f" | format(item.amount) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        <section class="summary">
+            <div>
+                <p>additional note:</p>
+            </div>
+            <div>
+                <div class="subtotal">
+                    <span>Subtotal</span>
+                    <span>BDT {{ "%.2f" | format(subtotal) }}</span>
+                </div>
+                <hr />
+                <div class="total">
+                    <span>TOTAL</span>
+                    <span>BDT {{ "%.2f" | format(total) }}</span>
+                </div>
+                <p>Total in words: BDT {{ total_in_words }}</p>
+            </div>
+        </section>
+        <footer>
+            <p>If you have any questions concerning this report, use the following contact information:</p>
+            <p>+880 17 7130 7270</p>
+        </footer>
+    </main>
+</body>
+
+</html>
